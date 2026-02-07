@@ -410,14 +410,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------------- HELP POPUP ----------------
 
-  const helpBtn = document.getElementById("help-button");
-  const helpPopup = document.getElementById("help-popup");
-  const closePopup = document.getElementById("close-popup");
-
-  const helpImage = document.getElementById("help-image");
-  const helpPrev = document.getElementById("help-prev");
-  const helpNext = document.getElementById("help-next");
-
   const helpImages = [
     "pics/help1.png",
     "pics/help2.png"
@@ -425,33 +417,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let helpIndex = 0;
 
-  function updateHelpImage() {
+  const helpPopup = document.getElementById("help-popup");
+  const helpImage = document.getElementById("help-image");
+  const helpPrev = document.getElementById("help-prev");
+  const helpNext = document.getElementById("help-next");
+
+  function updateHelpView() {
     helpImage.src = helpImages[helpIndex];
+
+    // первая картинка — только вперёд
+    if (helpIndex === 0) {
+      helpPrev.style.display = "none";
+      helpNext.style.display = "block";
+    }
+    // последняя картинка — только назад
+    else if (helpIndex === helpImages.length - 1) {
+      helpPrev.style.display = "block";
+      helpNext.style.display = "none";
+    }
   }
 
-  helpBtn.onclick = () => {
+  document.getElementById("help-button").onclick = () => {
     helpIndex = 0;
-    updateHelpImage();
+    updateHelpView();
     helpPopup.classList.remove("hidden");
-  };
-
-  closePopup.onclick = () => {
-    helpPopup.classList.add("hidden");
-  };
-
-  helpPrev.onclick = () => {
-    if (helpIndex > 0) {
-      helpIndex--;
-      updateHelpImage();
-    }
   };
 
   helpNext.onclick = () => {
     if (helpIndex < helpImages.length - 1) {
       helpIndex++;
-      updateHelpImage();
+      updateHelpView();
     }
   };
+
+  helpPrev.onclick = () => {
+    if (helpIndex > 0) {
+      helpIndex--;
+      updateHelpView();
+    }
+  };
+
+  document.getElementById("close-popup").onclick = () => {
+    helpPopup.classList.add("hidden");
+  };
+
 
 
 
