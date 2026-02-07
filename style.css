@@ -6,13 +6,15 @@
   font-display: swap;
 }
 
-
 body {
-  font-family: 'Futura PT Cond',sans-serif;
+  font-family: 'Futura PT Cond', sans-serif;
   background: #365ea4;
   color: white;
   text-align: center;
+  margin: 0;
 }
+
+/* ---------------- ДОСКА ---------------- */
 
 table {
   width: 90%;
@@ -20,12 +22,12 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: 2px solid white;
   padding: 20px;
   cursor: pointer;
   font-size: 24px;
-
 }
 
 td.used {
@@ -33,75 +35,114 @@ td.used {
   cursor: default;
 }
 
+/* ---------------- ЭКРАНЫ ---------------- */
+
 .screen {
   display: none;
 }
 
 .screen.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* ---------------- КНОПКИ ---------------- */
 
 button {
   padding: 12px 20px;
-  font-family: 'Futura PT Cond',sans-serif;
+  font-family: 'Futura PT Cond', sans-serif;
   font-size: 24px;
   margin-top: 20px;
   cursor: pointer;
   background: #365ea4;
   color: white;
+  border: 2px solid white;
 }
 
+button:hover {
+  background: #4c78c2;
+}
+
+/* ---------------- ВОПРОС ---------------- */
+
 #question-screen {
-  padding: 10px 40px;
+  padding: 20px 40px;
 }
 
 #question-screen h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 40px;
+  margin: 0 0 10px;
+  font-size: 40px;
 }
 
 #question-screen h3 {
-  font-size: 28px; /* цена */
+  font-size: 28px;
   opacity: 0.8;
   margin-bottom: 30px;
 }
 
-#question-screen p {
-  font-size: 36px; /* сам вопрос */
-  line-height: 1.4;
+#question-text {
   max-width: 900px;
-  margin: 0 auto 40px;
+  font-size: 36px;
+  line-height: 1.4;
   letter-spacing: 0.04em;
+  white-space: pre-wrap;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
+/* ---------------- ОТВЕТ ---------------- */
+
 #answer-screen {
-  padding: 10px 40px;
+  padding: 20px 40px;
 }
 
 #answer-screen h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin: 0 0 20px;
   font-size: 40px;
 }
 
-#answer-screen p {
-  font-size: 36px; 
-  font-weight: 600;
-}
-
 #answer-text {
+  max-width: 900px;
   font-size: 36px;
   letter-spacing: 0.04em;
+  white-space: pre-wrap;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-#answer-text img {
-  display: block;
-  margin: 30px auto 0;
+/* ---------------- КАРТИНКИ ---------------- */
+
+#question-text img,
+#answer-text img,
+.hint-level img {
   max-width: 80%;
   max-height: 60vh;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  display: block;
+}
+
+/* ---------------- ПОДСКАЗКИ ---------------- */
+
+.hint-level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 65vh;
+}
+
+/* кнопка следующей подсказки */
+.next-hint {
+  align-self: center;
 }
 
 /* ---------------- ВИДЕО ---------------- */
@@ -111,9 +152,6 @@ button {
   display: none;
   width: 100%;
   margin: 24px 0;
-  
-  /* Центрируем flex-контейнером */
-  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -121,45 +159,32 @@ button {
 .video-container {
   position: relative;
   cursor: pointer;
-
-  /* flex для центрирования иконки */
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
 .video-container video {
-  width: 70vw; /* увеличиваем примерно в 2 раза по сравнению с 50vw */
+  width: 70vw;
   max-width: 960px;
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   background: black;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.4);
 }
 
-/* Иконка Play */
+/* Play-иконка */
 .video-play-icon {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 0;
   height: 0;
-  border-left: 60px solid white; /* длина треугольника */
+  border-left: 60px solid white;
   border-top: 35px solid transparent;
   border-bottom: 35px solid transparent;
-  pointer-events: none; /* важно для клика */
+  pointer-events: none;
   z-index: 10;
-  opacity: 1;
-  transition: opacity 0.2s;
 }
 
-/* скрываем при воспроизведении */
-.video-container.playing .video-play-icon {
-  opacity: 0;
-}
-
-/* Адаптация для мобильных */
 @media (max-width: 768px) {
   .video-container video {
     width: 90vw;
@@ -172,4 +197,11 @@ button {
   }
 }
 
+/* ---------------- МУЗЫКА ---------------- */
 
+#play-music-question,
+#stop-music-question,
+#play-music-answer,
+#stop-music-answer {
+  display: none;
+}

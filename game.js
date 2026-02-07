@@ -14,22 +14,81 @@ document.addEventListener("DOMContentLoaded", () => {
   const questions = {
     "Назад в будущее": {
       100: {
-        question: { text: "В репертуаре Саши и Ярика есть много одинаковых ролей..." },
-        answer: { text: "Ромео", image: "pics/answer1_100.jpg" }
+        question: {
+          text: "В репертуаре Саши и Ярика есть много одинаковых ролей...\nЧто это за роль?"
+        },
+        answer: {
+          text: "Ромео",
+          image: "pics/answer1_100.png"
+        }
       },
       200: {
-        question: { text: "Расставьте исполнения мюзикла «Тетрадь смерти» в хронологическом порядке", video: "video/question200.mp4" },
-        answer: { text: "В. 2017 год, Г. 2018 год, А. 2021 год, А. 2021 год" }
-      }
-    },
-    "Угадай мелодию": {
-      100: {
-        question: { audio: "music/tyani2.mp3" },
-        answer: { text: "Ответ1" }
+        question: {
+          text: "Расставьте исполнения мюзикла «Тетрадь смерти» в хронологическом порядке",
+          image: "pics/question1_200.PNG"
+        },
+        answer: {
+          image: "pics/answer1_200.PNG"
+        }
+      },
+      300: {
+        question: {
+          text: "Недавно среди персонажей Ярика появился тот...\nЧто это за персонажи?"
+        },
+        answer: {
+          image: "pics/answer1_300.PNG"
+        }
+      },
+      400: {
+        question: {
+          text: "По признанию Саши, он поёт эту арию именно в ТАКОЙ версии.\nЧто за версия?"
+        },
+        answer: {
+          video: "video/answer1_400.mp4"
+        }
       },
       500: {
-        question: { audio: "music/more_than_words_question.mp3" },
-        answer: { video: "video/more_than_words_melodia_500.mp4" }
+        question: {
+          text: "Их роднит ремесло, которым они зарабатывают на жизнь.\nЧто это?"
+        },
+        answer: {
+          image: "pics/answer1_500.PNG"
+        }
+      }
+    },
+
+    "Угадай мелодию": {
+      100: {
+        question: { audio: "music/question2_100.mp3" },
+        answer: { audio: "music/answer2_100.mp3" }
+      },
+      200: {
+        question: { audio: "music/question2_200.mp3" },
+        answer: { audio: "music/answer2_200.mp3" }
+      },
+      300: {
+        question: { audio: "music/question2_300.mp3" },
+        answer: { audio: "music/answer2_300.mp3" }
+      },
+      400: {
+        question: { audio: "music/question2_400.mp3" },
+        answer: { audio: "music/answer2_400.mp3" }
+      },
+      500: {
+        question: { audio: "music/question2_500.mp3" },
+        answer: { video: "video/answer2_500.mp4" }
+      }
+    },
+
+    "Нет слов, одни эмодзи": {
+      100: {
+        question: {
+          hints: ["pics/question3_100_0.png", "pics/question3_100_1.png", "pics/question3_100_2.png"]
+        },
+
+        answer: {
+          text: "Сашеярики"
+        }
       }
     }
   };
@@ -40,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const boardScreen = document.getElementById("game-board");
   const questionScreen = document.getElementById("question-screen");
   const answerScreen = document.getElementById("answer-screen");
+
   const audioPlayer = document.getElementById("audio-player");
 
   const questionVideoWrapper = document.getElementById("question-video-wrapper");
@@ -49,6 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentQuestion = null;
   let currentCell = null;
+  let currentHintIndex = 0;
+
 
   // ---------------- АУДИО ----------------
 
@@ -77,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setupVideo(data, video, wrapper) {
     stopVideo(video, wrapper);
-
     if (!data.video) return;
 
     wrapper.style.display = "flex";
@@ -87,20 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = wrapper.querySelector(".video-container");
     const playIcon = wrapper.querySelector(".video-play-icon");
 
-    // показываем иконку в начале
     playIcon.style.display = "block";
 
-    // события для управления иконкой
     video.onplay = () => playIcon.style.display = "none";
     video.onpause = () => playIcon.style.display = "block";
 
-    // клик по контейнеру
     container.onclick = () => {
-      if (video.paused) {
-        video.play().catch(() => { });
-      } else {
-        video.pause();
-      }
+      video.paused ? video.play() : video.pause();
     };
   }
 
@@ -112,42 +166,62 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     screen.classList.add("active");
   }
+  // ---------------- ПОДСКАЗКИ ----------------
+  function renderHint(container, hints) {
+    container.innerHTML = "";
 
-  // ---------------- РЕНДЕР КОНТЕНТА ----------------
+    const img = document.createElement("img");
+    img.src = hints[currentHintIndex];
+    container.appendChild(img);
+
+    if (currentHintIndex < hints.length - 1) {
+      const btn = document.createElement("button");
+      btn.textContent = "Показать следующую подсказку";
+      btn.onclick = () => {
+        currentHintIndex++;
+        renderHint(container, hints);
+      };
+      container.appendChild(btn);
+    }
+  }
+
+
+  // ---------------- РЕНДЕР ----------------
 
   function renderContent(data, containerId, playBtnId, stopBtnId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
 
-    // текст
+    if (data.hints) {
+      currentHintIndex = 0;
+      renderHint(container, data.hints);
+      return;
+    }
+
+
     if (data.text) {
       const div = document.createElement("div");
       div.textContent = data.text;
       container.appendChild(div);
     }
 
-    // картинка
     if (data.image) {
       const img = document.createElement("img");
       img.src = data.image;
-      img.alt = "";
       container.appendChild(img);
     }
 
-    // кнопки музыки
     const playBtn = document.getElementById(playBtnId);
     const stopBtn = document.getElementById(stopBtnId);
 
     if (data.audio) {
-      playBtn.style.display = "inline-block";
-      stopBtn.style.display = "inline-block";
+      playBtn.style.display = stopBtn.style.display = "inline-block";
     } else {
-      playBtn.style.display = "none";
-      stopBtn.style.display = "none";
+      playBtn.style.display = stopBtn.style.display = "none";
     }
   }
 
-  // ---------------- ОТКРЫТИЕ ВОПРОСА ----------------
+  // ---------------- ВОПРОС ----------------
 
   function openQuestion(category, value, cell) {
     currentQuestion = questions[category][value];
@@ -157,6 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("question-value").textContent = value;
 
     renderContent(currentQuestion.question, "question-text", "play-music-question", "stop-music-question");
+
     stopAudio();
     stopVideo(answerVideo, answerVideoWrapper);
     setupVideo(currentQuestion.question, questionVideo, questionVideoWrapper);
@@ -164,11 +239,24 @@ document.addEventListener("DOMContentLoaded", () => {
     showScreen(questionScreen);
   }
 
+  // ---------------- ОТВЕТ ----------------
+
+  function showAnswer() {
+    renderContent(currentQuestion.answer, "answer-text", "play-music-answer", "stop-music-answer");
+
+    stopAudio();
+    stopVideo(questionVideo, questionVideoWrapper);
+    setupVideo(currentQuestion.answer, answerVideo, answerVideoWrapper);
+
+    showScreen(answerScreen);
+  }
+
+  document.getElementById("show-answer").onclick = showAnswer;
+
   // ---------------- ДОСКА ----------------
 
   categories.forEach(category => {
     const row = document.createElement("tr");
-
     const catCell = document.createElement("td");
     catCell.textContent = category;
     row.appendChild(catCell);
@@ -189,27 +277,11 @@ document.addEventListener("DOMContentLoaded", () => {
     boardBody.appendChild(row);
   });
 
-  // ---------------- ОТВЕТ ----------------
-
-  document.getElementById("show-answer").onclick = () => {
-    if (!currentQuestion) return;
-
-    renderContent(currentQuestion.answer, "answer-text", "play-music-answer", "stop-music-answer");
-
-    stopAudio();
-    stopVideo(questionVideo, questionVideoWrapper);
-    setupVideo(currentQuestion.answer, answerVideo, answerVideoWrapper);
-
-    showScreen(answerScreen);
-  };
-
   // ---------------- НАЗАД ----------------
 
   document.getElementById("back-to-board").onclick = () => {
-    if (currentCell) {
-      currentCell.classList.add("used");
-      currentCell.onclick = null;
-    }
+    currentCell?.classList.add("used");
+    currentCell.onclick = null;
 
     stopAudio();
     stopVideo(questionVideo, questionVideoWrapper);
@@ -221,11 +293,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------------- КНОПКИ МУЗЫКИ ----------------
 
   document.getElementById("play-music-question").onclick = () => {
-    if (currentQuestion?.question?.audio) playAudio(currentQuestion.question.audio);
+    playAudio(currentQuestion?.question?.audio);
   };
 
   document.getElementById("play-music-answer").onclick = () => {
-    if (currentQuestion?.answer?.audio) playAudio(currentQuestion.answer.audio);
+    playAudio(currentQuestion?.answer?.audio);
   };
 
   document.getElementById("stop-music-question").onclick = stopAudio;
