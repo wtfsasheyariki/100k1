@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       400: {
         question: { image: "pics/question6_400.PNG" },
-        answer: { text: "Сашина переделка арии Ленского «Olga will you weep for me»​​", image: "pics/answer6_400.png" }
+        answer: { text: "Сашина переделка арии Ленского «Olga will you weep for me»​​", image: "pics/answer6_400.PNG" }
       },
       500: {
         question: { image: "pics/question6_500.png", text: "Кот в мешке!\nНазвание данной рубрики «Эй, подруга, что с лицом?» является строчкой известной песни из двухтысячных. \nЧто это за песня?​\nБонусный вопрос: на каком концерте её исполняли Саша и Ярик?​", audio: "music/question6_500.mp3" },
