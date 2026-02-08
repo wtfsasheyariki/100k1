@@ -59,11 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "Угадай мелодию": {
       100: {
         question: { text: "Запустите мелодию", audio: "music/question2_100.mp3" },
-        answer: {  text: " Алая пелена - Futatsu no Kodou to Akai Tsumi (OST аниме «Vampire Knight»)", audio: "music/answer2_100.mp3" }
+        answer: {  text: "Алая пелена - Futatsu no Kodou to Akai Tsumi (OST аниме «Vampire Knight»)", audio: "music/answer2_100.mp3" }
       },
       200: {
         question: { text: "Запустите мелодию", audio: "music/question2_200.mp3" },
-        answer: {  text: "Мюзикл Ромео и Джульетта - Предчувствие любви", audio: "music/answer2_200.mp3" }
+        answer: {  text: "Мюзикл «Ромео и Джульетта» - Предчувствие любви", audio: "music/answer2_200.mp3" }
       },
       300: {
         question: { text: "Запустите мелодию", audio: "music/question2_300.mp3" },
