@@ -60,23 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
     "Угадай мелодию": {
       100: {
         question: { text: "Запустите мелодию", audio: "music/question2_100.mp3" },
-        answer: { audio: "music/answer2_100.mp3" }
+        answer: {  text: " Алая пелена - Futatsu no Kodou to Akai Tsumi (OST аниме «Vampire Knight»)", audio: "music/answer2_100.mp3" }
       },
       200: {
         question: { text: "Запустите мелодию", audio: "music/question2_200.mp3" },
-        answer: { audio: "music/answer2_200.mp3" }
+        answer: {  text: "Мюзикл Ромео и Джульетта - Предчувствие любви", audio: "music/answer2_200.mp3" }
       },
       300: {
         question: { text: "Запустите мелодию", audio: "music/question2_300.mp3" },
-        answer: { audio: "music/answer2_300.mp3" }
+        answer: { text: "Мельница - Невеста полоза", audio: "music/answer2_300.mp3" }
       },
       400: {
         question: { text: "Запустите мелодию", audio: "music/question2_400.mp3" },
-        answer: { audio: "music/answer2_400.mp3" }
+        answer: { text: "Король и Шут - Тяни", audio: "music/answer2_400.mp3" }
       },
       500: {
         question: { text: "Запустите мелодию", audio: "music/question2_500.mp3" },
-        answer: { video: "video/answer2_500.mp4" }
+        answer: { text: "Extreme - More than words", video: "video/answer2_500.mp4" }
       }
     },
 
